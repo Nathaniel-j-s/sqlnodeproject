@@ -1,0 +1,1 @@
+SELECT * FROM rpgs ORDER BY fun DESC;

@@ -19,8 +19,8 @@ const db = app.get('db');
 // I bet this is terrible practice, but I was getting errors about require not being defined
 // and I would have fixed it but I'm kind of in a hurry to finish this asap.
 const mainCtrl = {
-  list: function(req, res, next) {
-    db.characters.list([],
+  listChars: function(req, res, next) {
+    db.characters.listChars([],
     function(err, result) {
       if (err) {
         console.log(err);
@@ -29,18 +29,68 @@ const mainCtrl = {
       }
     });
   },
+  listGames: function(req, res, next) {
+    db.characters.listGames([],
+    function(err, result) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(result);
+      }
+    });
+  },
+  listCharsByGame: function(req, res, next) {
+    db.characters.listCharsByGame([req.query.game],
+    function(err, result) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(result);
+      }
+    })
+  },
+  sortGamesByFun: function(req, res, next) {
+    db.characters.sortGamesByFun([],
+    function(err, result) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(result);
+      }
+    })
+  },
   selectCharacter: function(req, res, next) {
     db.characters.selectCharacter([req.query.charid], // Need to pass charid from button click, methinks.
     function(err, result) {
       if (err) {
         console.log(err);
-      } else { // Req HTTP will look like this:
+      } else {
         res.send(result);
       }
     });
   },
   newCharacter: function(req, res, next) {
     db.characters.newCharacter([req.body.name, req.body.games, req.body.classes],
+    function(err, result) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(result);
+      }
+    })
+  },
+  newGame: function(req, res, next) {
+    db.characters.newGame([req.body.gname, req.body.style, req.body.fun],
+    function(err, result) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(result);
+      }
+    })
+  },
+  updateCharacter: function(req, res, next) {
+    db.characters.updateCharacter([req.query.charid, req.body.name, req.body.games, req.body.classes],
     function(err, result) {
       if (err) {
         console.log(err);
@@ -62,9 +112,14 @@ const mainCtrl = {
 };
 
 // Massive JS function calls below. Again, bad practice, sorry! So un-modularized!
-app.get('/api/characters', mainCtrl.list);
+app.get('/api/characters', mainCtrl.listChars);
+app.get('/api/games', mainCtrl.listGames);
+app.get('/api/charactersbygame', mainCtrl.listCharsByGame);
+app.get('/api/sortgamesbyfun', mainCtrl.sortGamesByFun);
 app.get('/api/character', mainCtrl.selectCharacter);
 app.post('/api/newcharacter', mainCtrl.newCharacter);
+app.post('/api/newgame', mainCtrl.newGame);
+app.put('/api/updatecharacter', mainCtrl.updateCharacter);
 app.delete('/api/deletecharacter', mainCtrl.deleteCharacter);
 
 // The usual.
