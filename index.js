@@ -114,13 +114,13 @@ const mainCtrl = {
 // Massive JS function calls below. Again, bad practice, sorry! So un-modularized!
 app.get('/api/characters', mainCtrl.listChars);
 app.get('/api/games', mainCtrl.listGames);
-app.get('/api/characters/:games', mainCtrl.listCharsByGame);
-app.get('/api/games/fun', mainCtrl.sortGamesByFun); // <-- Fix these things. No verbs.
-app.get('/api/character/:charid', mainCtrl.selectCharacter);
+app.get('/api/characters/game', mainCtrl.listCharsByGame);
+app.get('/api/games/fun', mainCtrl.sortGamesByFun); // <-- Fix these things. No verbs. // WOO! BETTER!
+app.get('/api/character/id', mainCtrl.selectCharacter);
 app.post('/api/newcharacter', mainCtrl.newCharacter);
 app.post('/api/newgame', mainCtrl.newGame);
 app.put('/api/characters', mainCtrl.updateCharacter); // URL looks like http://localhost:3876/api/characters?charid=1. Figure out why /:charid is breaking this line.
-app.delete('/api/characters/:charid', mainCtrl.deleteCharacter);
+app.delete('/api/characters', mainCtrl.deleteCharacter);
 
 // The usual.
 app.listen(3876, function() {
